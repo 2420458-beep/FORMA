@@ -368,6 +368,7 @@
             <a href="index.html">Home</a>
             <a href="products.html">Products</a>
             <a href="contact.html" class="active">Contact</a>
+            <a href="cart.html" class="nav-cart" id="cartNavLink">Cart <span class="cart-badge" id="cartBadge"></span></a>
             <a href="products.html" class="nav-cta">Shop Now</a>
           </div>
         </nav>
@@ -698,11 +699,20 @@
     // ── FAQ accordion ─────────────────────────────────────
     function toggleFaq(item) {
       const isOpen = item.classList.contains('open');
-      // Close all
       document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
-      // Open clicked if it was closed
       if (!isOpen) item.classList.add('open');
     }
+
+    // ── Cart badge count ──────────────────────────────────
+    (function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('formaCart') || '[]');
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const badge = document.getElementById('cartBadge');
+      if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+    })();
   </script>
 </body>
 </html>
